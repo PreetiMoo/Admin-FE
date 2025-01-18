@@ -15,7 +15,7 @@ export const AuthProvider = ({ children }) => {
     }, []);
 
     const login = (token, userData) => {
-        Cookies.set('accessToken', token); 
+       
         setUser(userData);
     };
 
