@@ -21,7 +21,7 @@ const EditMember = () => {
         const fetchUser = async () => {
             try {
                 const response = await api.get(`/team/users/${id}`, {
-                    withCredentials: true,
+                    
                 });
                 setFormData(response.data);
             } catch (error) {
@@ -33,7 +33,7 @@ const EditMember = () => {
         const fetchManagers = async () => {
             try {
                 const response = await api.get('/team/users?role=Manager', {
-                    withCredentials: true,
+                    
                 });
                 setManagers(response.data); 
             } catch (error) {
@@ -58,7 +58,7 @@ const EditMember = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            await api.patch(`/auth/update/${id}`, formData, { withCredentials: true });
+            await api.patch(`/auth/update/${id}`, formData);
 
             navigate('/admin'); 
         } catch (error) {
@@ -72,29 +72,41 @@ const EditMember = () => {
             <h2>Edit Team Member</h2>
             {error && <p className="error-message">{error}</p>}
             <form onSubmit={handleSubmit}>
-                <label>
+
+            <div className='role-dropdown'>
+            <label style={{marginRight:"2rem"}}>
                     Name:
-                    <input
+                    
+                </label>
+                <input
                         type="text"
                         name="name"
                         value={formData.name}
                         onChange={handleInputChange}
                         required
                     />
-                </label>
-                <label>
+            </div>
+                
+            <div className='role-dropdown'>
+            <label style={{marginRight:"2rem"}}>
                     Email:
-                    <input
+                    
+                </label>
+            <input
                         type="email"
                         name="email"
                         value={formData.email}
                         onChange={handleInputChange}
                         required
                     />
-                </label>
+            </div>
+                
+                <div className='role-dropdown'>
                 <label>
                     Role:
-                    <select
+                </label>
+                <div>
+                <select
                         name="role"
                         value={formData.role}
                         onChange={handleInputChange}
@@ -102,8 +114,12 @@ const EditMember = () => {
                     >
                         <option value="Employee">Employee</option>
                         <option value="Manager">Manager</option>
-                    </select>
-                </label>
+                </select>
+                </div>
+                </div>
+                
+                
+
                 {formData.role === 'Employee' && (
                     <label>
                         Manager:
@@ -122,6 +138,8 @@ const EditMember = () => {
                         </select>
                     </label>
                 )}
+
+                <div className='register-btns'>
                 <button type="submit" className="btn btn-primary">
                     Save Changes
                 </button>
@@ -132,6 +150,8 @@ const EditMember = () => {
                 >
                     Cancel
                 </button>
+                </div>
+                
             </form>
         </div>
     );

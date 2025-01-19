@@ -63,7 +63,7 @@ const Register = () => {
     };
 
     return (
-        <div>
+        <div className='register-body'>
             <h2>Register</h2>
             {error && <p style={{ color: 'red' }}>{error}</p>}
             <form onSubmit={handleSubmit}>
@@ -100,8 +100,10 @@ const Register = () => {
                     required
                 />
                 
-                <div>
+                <div className='role-dropdown'>
                     <label>Role:</label>
+                    
+                    <div>
                     <select
                         name="role"
                         value={formData.role}
@@ -112,11 +114,17 @@ const Register = () => {
                         <option value="Manager">Manager</option>
                         
                     </select>
+                    </div>
+                   
+                    
+                    
                 </div>
 
                 {formData.role === 'Employee' && (
-    <div>
+    <div className='role-dropdown'>
         <label>Manager:</label>
+
+        <div>
         <select
             name="managerId"
             value={formData.managerId}
@@ -130,11 +138,13 @@ const Register = () => {
                 </option>
             ))}
         </select>
+        </div>
+        
     </div>
 )}
 
-
-                <button type="submit">Register</button>
+ <div className='register-btns'>
+ <button className="btn btn-secondary" type="submit">Register</button>
                 <button
                     type="button"
                     className="btn btn-secondary"
@@ -142,6 +152,8 @@ const Register = () => {
                 >
                     Cancel
                 </button>
+ </div>
+                
             </form>
             
 

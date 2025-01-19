@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { FaEdit } from 'react-icons/fa'; 
+
 import api from '../../services/api'; 
 import '../../styles/ManagerDashboard.css';
 import OrderList from '../Orders/OrderList';
@@ -19,7 +20,7 @@ const ManagerDashboard = () => {
     useEffect(() => {
         const fetchProducts = async () => {
             try {
-                const response = await api.get('/products/', { withCredentials: true });
+                const response = await api.get('/products/');
                 setProducts(response.data);
             } catch (error) {
                 setError('Failed to fetch products.');
@@ -29,11 +30,11 @@ const ManagerDashboard = () => {
 
         const fetchTeam = async () => {
             try {
-                const response = await api.get('/team/', { withCredentials: true });
+                const response = await api.get('/team/');
                 setTeam(response.data);
             } catch (error) {
-                setError('Failed to fetch team members.');
-                console.error(error);
+                setError(error?.response?.data?.error ||'Failed to fetch team members.');
+                console.log("error in fetching team",error,error?.response?.data?.error);
             }
         };
 
@@ -43,7 +44,7 @@ const ManagerDashboard = () => {
 
     const handleAddProduct = async () => {
         try {
-            const response = await api.post('/products/', newProduct, { withCredentials: true });
+            const response = await api.post('/products/', newProduct);
             setProducts([...products, response.data]);
             setShowProductModal(false);
             setNewProduct({ name: '', description: '', price: '', image: '' });
@@ -55,6 +56,7 @@ const ManagerDashboard = () => {
 
     const handleEditProduct = (product) => {
         setSelectedProduct(product); 
+        setShowProductListModal(false)
         setShowEditModal(true); 
     };
 
@@ -78,17 +80,25 @@ const ManagerDashboard = () => {
 
     return (
         <div className="dashboard-container">
+        <header className="dashboard-header">
+      <h1>Manager Dashboard</h1>
+      {error && <p className="error-text">{error}</p>}
+    </header>
+
+    <div className="button-container">
+      <button className="btn btn-primary" onClick={() => setShowOrderListModal(true)}>
+        Order List
+      </button>
+    </div>
             
-            <button className="product-list" onClick={() => setShowOrderListModal(true)}>
-                        Order List
-                    </button>
+          
             <div className="product-card">
                 <div className="product-card-header">Products</div>
                 <div className="product-card-buttons">
                     <button className="add-product" onClick={() => setShowProductModal(true)}>
                         Add Product
                     </button>
-                    <button className="product-list" onClick={() => setShowProductListModal(true)}>
+                    <button className="add-product" onClick={() => setShowProductListModal(true)}>
                         Products List
                     </button>
                 </div>
@@ -247,7 +257,7 @@ const ManagerDashboard = () => {
             {showOrderListModal && (
                       <div className="modal">
                           <div className="modal-content">
-                              <h2>Order List</h2>
+                              {/* <h2>Order List</h2> */}
                               <button className="close-modal" onClick={() => setShowOrderListModal(false)}>
                                   &times;
                               </button>

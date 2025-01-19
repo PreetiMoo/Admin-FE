@@ -23,19 +23,22 @@ const AdminDashboard = () => {
     
     const fetchTeam = async () => {
         try {
-            const response = await api.get('/team', { withCredentials: true });
+            const response = await api.get('/team');
             setTeam(response.data);
         } catch (error) {
             setError('Failed to fetch team members.');
-            console.error(error);
+            console.log("error in fetching team",error);
         }
     };
 
     
     const fetchProducts = async () => {
         try {
-            const response = await api.get('/products/', { withCredentials: true });
+           
+                const response = await api.get('/products/');
             setProducts(response.data);
+            
+            
         } catch (error) {
             setError('Failed to fetch products.');
             console.error(error);
@@ -45,7 +48,7 @@ const AdminDashboard = () => {
     
     const handleAddProduct = async () => {
         try {
-            const response = await api.post('/products/', newProduct, { withCredentials: true });
+            const response = await api.post('/products/', newProduct);
             setProducts([...products, response.data]);
             setShowProductModal(false);
             setNewProduct({ name: '', description: '', price: '', image: '' });
@@ -70,7 +73,7 @@ const AdminDashboard = () => {
                 description,
                 price,
                 image,
-            }, { withCredentials: true });
+            }, );
             setProducts(products.map((product) => (product._id === selectedProduct._id ? response.data : product)));
             setShowEditModal(false);
             setSelectedProduct(null); 
@@ -83,11 +86,12 @@ const AdminDashboard = () => {
     useEffect(() => {
         fetchTeam();
         fetchProducts();
+        
     }, []);
 
     const handleDelete = async (id) => {
         try {
-            await api.delete(`/auth/delete/${id}`, { withCredentials: true });
+            await api.delete(`/auth/delete/${id}`);
             setTeam(team.filter((member) => member._id !== id));
         } catch (error) {
             setError('Failed to delete user.');
@@ -149,7 +153,7 @@ const AdminDashboard = () => {
                     <button className="add-product" onClick={() => setShowProductModal(true)}>
                         Add Product
                     </button>
-                    <button className="product-list" onClick={() => setShowProductListModal(true)}>
+                    <button style={{backgroundColor: "#28a745"}} className="add-product" onClick={() => setShowProductListModal(true)}>
                         Products List
                     </button>
                 </div>

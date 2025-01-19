@@ -56,9 +56,9 @@ const AddEditProduct = () => {
   
 	  let response;
 	  if (id) {
-		response = await api.patch(`/products/${id}`, filteredProduct, { withCredentials: true });
+		response = await api.patch(`/products/${id}`, filteredProduct, );
 	  } else {
-		response = await api.post('/products', filteredProduct, { withCredentials: true });
+		response = await api.post('/products', filteredProduct, );
 	  }
   
 	  if (response.status === 200 || response.status === 201) {

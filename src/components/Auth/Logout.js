@@ -3,6 +3,8 @@ import { useNavigate } from 'react-router-dom';
 import { AuthContext } from '../../context/AuthContext';
 import api from '../../services/api';
 import Cookies from 'js-cookie';
+import '../../styles/App.css'
+import { FiLogOut } from "react-icons/fi";
 
 const Logout = () => {
     const { logout } = useContext(AuthContext);
@@ -24,8 +26,15 @@ const Logout = () => {
     };
 
     return (
-        <button style={{    "width": "auto", "right": "-210px"}} onClick={handleLogout}>Logout</button>
+        
+
+    <button className="logout-button" onClick={handleLogout}>
+        <FiLogOut size={25} />
+        
+      </button>
     );
+
+
 };
 
 export default Logout;

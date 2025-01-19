@@ -1,6 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { Table, Button } from 'react-bootstrap';
 import api from '../../services/api'; 
+import '../../styles/App.css'
+import '../../styles/components.css'
+import '../../styles/EmployeeDashboard.css'
+
 
 const OrderList = ({role}) => {
   const [orders, setOrders] = useState([]); 
@@ -61,13 +65,13 @@ const OrderList = ({role}) => {
   
 
   return (
-    <div>
-      <h1>Order List</h1>
+    <div className="order-list-container">
       {orders.length === 0 ? (
-        <p>Loading orders...</p>
+        <p className="loading-text">Loading orders...</p>
       ) : (
-        <Table striped bordered hover responsive>
-          <thead>
+        <Table striped bordered hover responsive className="products-table">
+        
+          <thead className="order-list-header">
             <tr>
               <th>Customer Name</th>
               <th>Product Name</th>
@@ -77,34 +81,39 @@ const OrderList = ({role}) => {
             </tr>
           </thead>
           <tbody>
-		  {orders.map((order) => (
-  <tr key={order._id}>
-    <td>{order.customerName}</td>
-    <td>{order.products.map((product) => product.product.name).join(', ')}</td> 
-    <td>${order.total}</td>
-    <td>{formatDate(order.createdAt)}</td>
-    <td>
-      {role === "Manager" && order.status === "Pending" ? (
-        <div>
-          <select
-            value={order.newStatus || ""}
-            onChange={(e) => handleStatusChange(e, order._id)}
-          >
-            <option value="" disabled>{order.status}</option>
-            <option value="Cancelled">Cancelled</option>
-            <option value="Delivered">Delivered</option>
-          </select>
-          <button onClick={() => submitStatusChange(order._id)}>
-            Submit
-          </button>
-        </div>
-      ) : (
-        order.status
-      )}
-    </td>
-  </tr>
-))}
-
+            {orders.map((order) => (
+              <tr key={order._id}>
+                <td>{order.customerName}</td>
+                <td>{order.products.map((product) => product.product.name).join(', ')}</td>
+                <td>${order.total}</td>
+                <td>{formatDate(order.createdAt)}</td>
+                <td>
+                  {role === 'Manager' && order.status === 'Pending' ? (
+                    <div className="status-update-container">
+                      <select
+                        className="status-dropdown"
+                        value={order.newStatus || ''}
+                        onChange={(e) => handleStatusChange(e, order._id)}
+                      >
+                        <option value="" disabled>
+                          {order.status}
+                        </option>
+                        <option value="Cancelled">Cancelled</option>
+                        <option value="Delivered">Delivered</option>
+                      </select>
+                      <button
+                        className="submit-status-btn"
+                        onClick={() => submitStatusChange(order._id)}
+                      >
+                        Submit
+                      </button>
+                    </div>
+                  ) : (
+                    order.status
+                  )}
+                </td>
+              </tr>
+            ))}
           </tbody>
         </Table>
       )}

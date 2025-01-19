@@ -21,7 +21,7 @@ const Login = () => {
             console.log('Atoken',AccessToken)
     
             
-            login(data.token, { ...data.user, token: data.token });
+            login(data.accessToken, { ...data.user, token: data.accessToken });
     
             
             if (data.user.role === 'Admin') {
